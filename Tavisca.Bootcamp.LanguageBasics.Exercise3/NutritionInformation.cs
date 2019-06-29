@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 public class NutritionInformation
 {
@@ -7,7 +8,19 @@ public class NutritionInformation
     public int[] Carbs;
     public int[] Fat;
     public int[] Calories;
-   
+    public const int CaloriesPerGramOfCarbs = 5;
+    public const int CaloriesPerGramOfProtein = 5;
+    public const int CaloriesPerGramOfFat = 9;
+    public const char LessProtein = 'p';
+    public const char MoreProtein = 'P';
+    public const char LessCarbs = 'c';
+    public const char MoreCarbs = 'C';
+    public const char LessFat = 'f';
+    public const char MoreFat = 'F';
+    public const char LessCalories = 't';
+    public const char MoreCalories = 'T';
+
+
 
     public NutritionInformation(int[] protein, int[] carbs, int[] fat)
     {
@@ -20,7 +33,7 @@ public class NutritionInformation
     {
         int[] calories = new int[Protein.Length];
         for (int i = 0; i < Protein.Length; i++)
-            calories[i] = Carbs[i] * 5 + Protein[i] * 5 + Fat[i] * 9;
+ calories[i] = Carbs[i] * CaloriesPerGramOfCarbs + Protein[i] * CaloriesPerGramOfProtein + Fat[i] * CaloriesPerGramOfFat;
         return calories;
     }
     public int GetSuitableDietIndexForPerson(string diet)
@@ -28,65 +41,66 @@ public class NutritionInformation
         int max = 0, min = 0;
         if (diet.Length == 0)
             return 0;
-        List<int> listone = new List<int>();
-        List<int> listtwo = new List<int>();
+        List<int> listOne = new List<int>();
+        List<int> listTwo = new List<int>();
         for (int j = 0; j < Protein.Length; j++)//initializing listone
-            listone.Add(j);
+            listOne.Add(j);
         for (int x = 0; x < diet.Length; x++)
         {
             
 
             switch (diet[x])
             {
-                case 'P':
-                    max = GetMaximum(listone, Protein);
-                    UpdateList(listone, listtwo, max, Protein);
+                case MoreProtein:
+                    max = GetMaximum(listOne, Protein);
+                    UpdateList(listOne, listTwo, max, Protein);
                     break;
 
-                case 'C':
-                    max = GetMaximum(listone, Carbs);
-                    UpdateList(listone, listtwo, max, Carbs);
+                case MoreCarbs:
+                    max = GetMaximum(listOne, Carbs);
+                    UpdateList(listOne, listTwo, max, Carbs);
                     break;
 
-                case 'F':
-                    max = GetMaximum(listone, Fat);
-                    UpdateList(listone, listtwo, max, Fat);
+                case MoreFat:
+                    max = GetMaximum(listOne, Fat);
+                    UpdateList(listOne, listTwo, max, Fat);
                     break;
 
-                case 'T':
-                    max = GetMaximum(listone, Calories);
-                    UpdateList(listone, listtwo, max, Calories);
+                case MoreCalories:
+                    max = GetMaximum(listOne, Calories);
+                    UpdateList(listOne, listTwo, max, Calories);
                     break;
 
-                case 'p':
-                    min = GetMinimum(listone, Protein);
-                    UpdateList(listone, listtwo, min, Protein);
+                case LessProtein:
+                    min = GetMinimum(listOne, Protein);
+                    UpdateList(listOne, listTwo, min, Protein);
                     break;
 
-                case 'c':
-                    min = GetMinimum(listone, Carbs);
-                    UpdateList(listone, listtwo, min, Carbs);
+                case LessCarbs:
+                    min = GetMinimum(listOne, Carbs);
+                    UpdateList(listOne, listTwo, min, Carbs);
                     break;
 
-                case 'f':
-                    min = GetMinimum(listone, Fat);
-                    UpdateList(listone, listtwo, min, Fat);
+                case LessFat:
+                    min = GetMinimum(listOne, Fat);
+                    UpdateList(listOne, listTwo, min, Fat);
                     break;
 
-                case 't':
-                    min = GetMinimum(listone, Calories);
-                    UpdateList(listone, listtwo, min, Calories);
+                case LessCalories:
+                    min = GetMinimum(listOne, Calories);
+                    UpdateList(listOne, listTwo, min, Calories);
                     break;
             }
-            listone = listtwo;
-            listtwo = new List<int>();
-            if (listone.Count == 1)
+            listOne = listTwo;
+            listTwo = new List<int>();
+            if (listOne.Count == 1)
                 break;
         }
-        return listone[0];
+        return listOne[0];
     }
         private int GetMaximum(List<int> list, int[] nutritionProperty)
         {
+        //returns maximum of nutritionproperty value of indices present in list
             int max = int.MinValue;
             foreach (int k in list)
                 max = Math.Max(max, nutritionProperty[k]);
@@ -94,18 +108,19 @@ public class NutritionInformation
 
         }
         private int GetMinimum(List<int> list, int[] nutritionProperty)
-        {
+        {  
+        //returns minimum of nutritionproperty value of indices present in list
             int min = int.MaxValue;
             foreach (int k in list)
                 min = Math.Min(min, nutritionProperty[k]);
             return min;
 
         }
-    private  void UpdateList(List<int> oldList, List<int> updatedList, int number, int[] property)
+    private  void UpdateList(List<int> oldList, List<int> updatedList, int optimalNumber, int[] nutritionProperty)
     {
 
         foreach (int k in oldList)
-            if (number == property[k])
+            if (optimalNumber == nutritionProperty[k])
                 updatedList.Add(k);
     }
 
