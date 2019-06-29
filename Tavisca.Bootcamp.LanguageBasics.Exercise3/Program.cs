@@ -44,12 +44,12 @@ namespace Tavisca.Bootcamp.LanguageBasics.Exercise1
             int[] result = new int[dietPlans.Length];
             var nutritionInformation = new NutritionInformation(protein, carbs, fat);
             
-            int max, min;
-            for (int i = 0; i < dietPlans.Length; i++)
+           for (int personId = 0; personId < dietPlans.Length; personId++)
             {
-                 string diet=dietPlans[i];
-                 if(diet.Length!=0)
-                    result[i] = nutritionInformation.GetSuitableDietIndexForPerson(diet);
+                 string personDiet=dietPlans[personId];
+                 if(personDiet.Length!=0)
+                    result[personId] = nutritionInformation.GetSuitableDietIndexForPerson(personDiet);
+               
             }
 
            return result;

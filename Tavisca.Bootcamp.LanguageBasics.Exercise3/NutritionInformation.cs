@@ -34,6 +34,7 @@ public class NutritionInformation
             listone.Add(j);
         for (int x = 0; x < diet.Length; x++)
         {
+            
 
             switch (diet[x])
             {
@@ -80,9 +81,9 @@ public class NutritionInformation
             listone = listtwo;
             listtwo = new List<int>();
             if (listone.Count == 1)
-                return listone[0];
+                break;
         }
-        return 0;
+        return listone[0];
     }
         private int GetMaximum(List<int> list, int[] nutritionProperty)
         {
