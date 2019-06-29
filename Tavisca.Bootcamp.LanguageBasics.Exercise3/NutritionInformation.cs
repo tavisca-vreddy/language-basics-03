@@ -41,8 +41,11 @@ public class NutritionInformation
         int max = 0, min = 0;
         if (diet.Length == 0)
             return 0;
-        List<int> listOne = new List<int>();
-        List<int> listTwo = new List<int>();
+        List<int> listOne = new List<int>();//listOne maintains the current indices of optimum nutrition values
+
+        List<int> listTwo = new List<int>();/*listTwo maintains the updated indices of listone 
+                                            if listone contains more than one optimum value*/
+
         for (int j = 0; j < Protein.Length; j++)//initializing listone
             listOne.Add(j);
         for (int x = 0; x < diet.Length; x++)
